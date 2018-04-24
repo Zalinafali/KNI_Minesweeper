@@ -2,7 +2,7 @@
 #include <ctime>
 #include "board.h"
 
-board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines), tab(Matrix<area>(tab_size, tab_size)) {
+board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 	srand(time(NULL));
 
 	if (mines_number >= (tab_size-1) * (tab_size-1))		// max liczba min
@@ -14,7 +14,12 @@ board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines), tab
 	//for (int i = 0; i < tab_size; i++)
 	//	tab[i] = new (std::nothrow) area[tab_size];
 
+	tab = Matrix<area> (tab_size, tab_size);
+
 	std::cout << "Inicjalizacja tablicy.\n";
+	std::cout << "Tab size:\t" << tab_size << "\n";
+	std::cout << "Tab width:\t" << tab.width() << "\n";
+	std::cout << "Tab height:\t" << tab.height() << "\n";
 
 	int mines_to_place = mines_number;		// losowe podk³adanie min
 	int row, col;
@@ -24,12 +29,9 @@ board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines), tab
 
 		if (tab(row, col).place_mine()) {		// jeœli nie ma miny, pod³ó¿ j¹
 			mines_to_place--;
-			//for (int i = 0; i < 3; i++)	// liczenie min w s¹siedzctwie
-			//	if (row - 1 + i >= 0 && row - 1 + i < tab_size && col - 1 + i >= 0 && col - 1 + i < tab_size)
-			//		tab(row - 1 + i, col - 1 + i).add_mines_nearby();
-		
-			
-		
+			for (int i = 0; i < 3; i++)	// liczenie min w s¹siedzctwie
+				if (row - 1 + i >= 0 && row - 1 + i < tab_size && col - 1 + i >= 0 && col - 1 + i < tab_size)
+					tab(row - 1 + i, col - 1 + i).add_mines_nearby();
 		}
 	}
 	std::cout << "Usatwienie i zliczenie min.\n";
