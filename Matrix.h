@@ -9,16 +9,18 @@ class Matrix {
 	std::vector<T> data_;
 
 public:
-	Matrix(size_t _width, size_t _height) : width_(_width), height_(_height) {
-		//data_::reserve(T width_ * height_);
+	Matrix() : width_(0), height_(0) {}
+	Matrix(int _width, int _height) : width_(_width), height_(_height) {
+		for (int i = 0; i < width_ * height_; i++)
+			data_.push_back(*(new area()));
 	}
 
 	size_t width() { return width_; }
 	size_t height() { return height_; }
 
 	T& operator()(size_t row, size_t col) {
-		/*assert(col < width_);
-		assert(row < height_);*/
+		assert(col < width_);
+		assert(row < height_);
 		return data_[row * width_ + col];
 	}
 
