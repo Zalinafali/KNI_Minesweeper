@@ -15,7 +15,9 @@ public:
 
 	bool place_mine();
 	bool check_area();			// sprawdzenie danego obszaru
+	bool check_mine();
 	void change_flag();
+	bool check_flag();
 
 	void add_mines_nearby();	// liczba s¹siaduj¹cych min
 

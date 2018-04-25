@@ -9,13 +9,16 @@ private:
 	//area** tab;
 	Matrix<area> tab;
 	size_t tab_size;
-	int mines_number;
-	int mines_left;
+	unsigned int mines_number;
+	unsigned int mines_left;
 
 public:
 	explicit board(int, int);
 	~board();
-	
+	bool czy_gramy();
+	bool odkryj();
+	void odkryj_wszystko();
+	void flaga();
 	friend std::ostream& operator<<(std::ostream&, board&);
 
 };

@@ -44,15 +44,55 @@ board::~board() {
 	std::cout << "Board destroyed!\n";
 }
 
+bool board::czy_gramy()
+{
+	if (mines_left)return true;
+	return false;
+}
+
+bool board::odkryj()
+{
+	int wiersz, kolumna;
+	std::cout << "Podaj wiersz:\n";
+	std::cin >> wiersz;
+	std::cout << "Podaj kolumne:\n";
+	std::cin >> kolumna;
+	if (tab(wiersz - 1, kolumna - 1).check_flag()) return false;
+	if (!tab(wiersz-1, kolumna-1).place_mine()) {
+
+	}
+	return true;
+
+}
+
+void board::odkryj_wszystko()
+{
+	for (int i = 0; i < tab.width() ;i++) {
+		for (int j = 0; j < tab.height();j++) {
+			tab(i, j).check_area();
+		}
+	}
+}
+
+void board::flaga()
+{
+	int wiersz, kolumna;
+	std::cout << "Podaj wiersz:\n";
+	std::cin >> wiersz;
+	std::cout << "Podaj kolumne:\n";
+	std::cin >> kolumna;
+	tab(wiersz-1, kolumna-1).change_flag();
+}
+
 
 
 std::ostream& operator<<(std::ostream& out, board& source) {
-	out << "  ";
+	out << "	";
 	for (int i = 0; i < source.tab_size; i++)
 		out << i + 1 << " ";
 	out << "\n";
 	for (int i = 0; i < source.tab_size; i++) {
-		out << i + 1 << " ";
+		out << i + 1 << "	";
 		for (int j = 0; j < source.tab_size; j++)
 			out << source.tab(i, j) << " ";
 		out << "\n";
