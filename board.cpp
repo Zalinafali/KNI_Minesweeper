@@ -1,18 +1,21 @@
 #include <iostream>
 #include <ctime>
 #include "board.h"
+#include <random>
+
+thread_local std::mt19937 gen{ std::random_device{}() };
+
+template<typename T>
+T random(T min, T max) {
+	return std::uniform_int_distribution<T>{min, max}(gen);
+}
 
 board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
-	srand(time(NULL));
 
 	if (mines_number >= (tab_size-1) * (tab_size-1))		// max liczba min
 		mines_number = (tab_size-1) * (tab_size-1);
 
 	mines_left = mines_number;		// liczba pozosta³ych min
-
-	//tab = new (std::nothrow) area*[tab_size];		// inicjalizacja tabilcy
-	//for (int i = 0; i < tab_size; i++)
-	//	tab[i] = new (std::nothrow) area[tab_size];
 
 	tab = Matrix<area> (tab_size, tab_size);
 
@@ -24,8 +27,9 @@ board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 	int mines_to_place = mines_number;		// losowe podk³adanie min
 	int row, col;
 	while (mines_to_place > 0) {
-		row = rand() % tab_size;
-		col = rand() % tab_size;
+
+		row = random<int>(0, tab_size - 1);
+		col = random<int>(0, tab_size - 1);
 
 		if (tab(row, col).place_mine()) {		// jeœli nie ma miny, pod³ó¿ j¹
 			mines_to_place--;
@@ -38,9 +42,8 @@ board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 }
 
 board::~board() {
-	/*for (int i = 0; i < tab_size; i++)
-		delete[] tab[i];
-	delete[] tab;*/
+	/*for (int i = 0; i < tab_size*tab_size; i++)
+		delete &(tab(0,i));*/
 	std::cout << "Board destroyed!\n";
 }
 

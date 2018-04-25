@@ -12,7 +12,7 @@ public:
 	Matrix() : width_(0), height_(0) {}
 	Matrix(int _width, int _height) : width_(_width), height_(_height) {
 		for (int i = 0; i < width_ * height_; i++)
-			data_.push_back(*(new area()));
+			data_.push_back(area());
 	}
 
 	size_t width() { return width_; }

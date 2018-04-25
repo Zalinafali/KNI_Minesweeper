@@ -1,11 +1,11 @@
 #include "area.h"
 
-area::area() : mine(false), show_area(false), flag(false), is_active(false), mines_nearby(0) {};
+area::area() : mine(false), checked_area(false), flag(false), is_active(false), mines_nearby(0) {};
 
 bool area::check_area() {
-	if (show_area == true)
+	if (checked_area == true)
 		return false;
-	show_area = true;
+	checked_area = true;
 	return true;
 }
 
@@ -26,18 +26,27 @@ void area::change_flag() {
 }
 
 std::ostream& operator<<(std::ostream& out, const area& source) {
-	if (source.show_area == false) {
-		if (source.flag == true) {
+	//if (source.mine) {		// do sprawdzania
+	//	out << "B";
+	//	return out;
+	//}
+
+	if (source.checked_area == true) {		// jeœli pole by³o
+		out << "x";							// sprawdzone, wyœwietla
+		return out;							// x w tablicy
+	}
+	if (source.checked_area == false) {		// jesli pole nie by³o sprawdzone
+		if (source.flag == true) {			// jeœli jest ustawiona flaga
 			out << "F";
 			return out;
 		}
-		if (source.is_active) {
-			out << source.mines_nearby;
+		if (source.is_active == true) {		// czy pole ma pokazywaæ
+			out << source.mines_nearby;		// sasiednie miny
 			return out;
 		}
-		out << "o";
+		out << "#";							// w innym wypadku
 		return out;
 	}
-	out << "x";
+	out << "!";								// b³¹d
 	return out;
 }
