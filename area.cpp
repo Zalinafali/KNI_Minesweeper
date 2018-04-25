@@ -25,6 +25,11 @@ void area::change_flag() {
 		flag = true;
 }
 
+bool area::check_flag()
+{
+	return flag;
+}
+
 std::ostream& operator<<(std::ostream& out, const area& source) {
 	//if (source.mine) {		// do sprawdzania
 	//	out << "B";
