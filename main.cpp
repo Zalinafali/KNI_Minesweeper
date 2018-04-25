@@ -5,36 +5,30 @@
 int main() {
 
 	int tab_size;
-	std::string wybor;
+	std::string choise;
 	std::cout << "Wielkosc tablicy:";
 	std::cin >> tab_size;
 
 	int mines_number;
 	std::cout << "Ilosc min:";
 	std::cin >> mines_number;
-
+	system("CLS");
 	board game(tab_size, mines_number);
-	while (game.czy_gramy()) {
+	while (game.playing()) {
 		std::cout << game;
-		std::cout << "Co chcesz zrobic?\n";
-		std::cin >> wybor;
-		if (wybor[0] == 'o' || wybor[0] == 'O') {
-			std::cout << "\nwybrales o\n";
-			if (game.odkryj()) {
-				game.odkryj_wszystko();
+		std::cout << "Co chcesz zrobic? (o - odkryj, f - flaga, w - wyjdz)\n";
+		std::cin >> choise;
+		if (choise[0] == 'o' || choise[0] == 'O') {
+			if (game.uncover()) {
+				game.uncover_all();
+				system("CLS");
 				std::cout << game;
 				system("PAUSE");
 				break;
 			}
 		}
-		if (wybor[0] == 'f' || wybor[0] == 'F') {
-			std::cout << "\nwybrales f\n";
-			game.flaga();
-		}
-		if (wybor[0] == 'w' || wybor[0] == 'W') {
-			std::cout << "\nwybrales w\n";
-			break;
-		}
+		if (choise[0] == 'f' || choise[0] == 'F')game.flag();
+		if (choise[0] == 'w' || choise[0] == 'W')break;
 		system("PAUSE");
 		system("CLS");
 	}

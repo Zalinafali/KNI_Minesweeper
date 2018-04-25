@@ -15,10 +15,10 @@ private:
 public:
 	explicit board(int, int);
 	~board();
-	bool czy_gramy();
-	bool odkryj();
-	void odkryj_wszystko();
-	void flaga();
+	bool playing();
+	bool uncover();
+	void uncover_all();
+	void flag();
 	friend std::ostream& operator<<(std::ostream&, board&);
 
 };

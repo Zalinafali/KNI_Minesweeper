@@ -19,10 +19,10 @@ board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 
 	tab = Matrix<area> (tab_size, tab_size);
 
-	std::cout << "Inicjalizacja tablicy.\n";
-	std::cout << "Tab size:\t" << tab_size << "\n";
-	std::cout << "Tab width:\t" << tab.width() << "\n";
-	std::cout << "Tab height:\t" << tab.height() << "\n";
+	//std::cout << "Inicjalizacja tablicy.\n";
+	//std::cout << "Tab size:\t" << tab_size << "\n";
+	//std::cout << "Tab width:\t" << tab.width() << "\n";
+	//std::cout << "Tab height:\t" << tab.height() << "\n";
 
 	int mines_to_place = mines_number;		// losowe podk³adanie min
 	int row, col;
@@ -47,19 +47,20 @@ board::~board() {
 	std::cout << "Board destroyed!\n";
 }
 
-bool board::czy_gramy()
+bool board::playing()
 {
 	if (mines_left)return true;
 	return false;
 }
 
-bool board::odkryj()
+bool board::uncover()
 {
 	int wiersz, kolumna;
 	std::cout << "Podaj wiersz:\n";
 	std::cin >> wiersz;
 	std::cout << "Podaj kolumne:\n";
 	std::cin >> kolumna;
+	if (wiersz > tab.height() || kolumna > tab.width())return false;
 	if (tab(wiersz - 1, kolumna - 1).check_flag()) return false;
 	if (!tab(wiersz-1, kolumna-1).check_area()) {		// <-- tu stawia³eœ minê przy odkrywaniu, check_area() odkrywa pole jeœli nie by³o odkryte
 
@@ -68,7 +69,7 @@ bool board::odkryj()
 
 }
 
-void board::odkryj_wszystko()
+void board::uncover_all()
 {
 	for(int i = 0; i < tab.width(); i++)
 		for (int j = 0; j < tab.height(); j++) {
@@ -83,13 +84,14 @@ void board::odkryj_wszystko()
 	}*/
 }
 
-void board::flaga()
+void board::flag()
 {
 	int wiersz, kolumna;
 	std::cout << "Podaj wiersz:\n";
 	std::cin >> wiersz;
 	std::cout << "Podaj kolumne:\n";
 	std::cin >> kolumna;
+	if (wiersz > tab.height() || kolumna > tab.width())return;
 	tab(wiersz-1, kolumna-1).change_flag();
 }
 
