@@ -1,6 +1,8 @@
+#include <random>
 #include "board.h"
 
 int main() {
+
 	int tab_size;
 	std::cout << "Wielkosc tablicy:";
 	std::cin >> tab_size;
