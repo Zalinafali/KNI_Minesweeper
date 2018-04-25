@@ -5,9 +5,9 @@
 class area {
 private:
 	bool mine;			// czy jest mina
-	bool checked_area;	// czy pole zosta³o sprawdzone
+	bool checked_area;	// czy pole zosta³o odkryte
 	bool flag;			// oflagowanie pola
-	bool is_active;		// czy styka siê z ods³oniêtym polem
+	bool is_active;		// czy styka siê z odkrytym polem
 	int mines_nearby;	// miny dotykaj¹ce obszaru
 
 public:

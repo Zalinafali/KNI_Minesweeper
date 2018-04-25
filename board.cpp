@@ -61,7 +61,7 @@ bool board::odkryj()
 	std::cout << "Podaj kolumne:\n";
 	std::cin >> kolumna;
 	if (tab(wiersz - 1, kolumna - 1).check_flag()) return false;
-	if (!tab(wiersz-1, kolumna-1).place_mine()) {
+	if (!tab(wiersz-1, kolumna-1).check_area()) {		// <-- tu stawia³eœ minê przy odkrywaniu, check_area() odkrywa pole jeœli nie by³o odkryte
 
 	}
 	return true;
@@ -70,11 +70,17 @@ bool board::odkryj()
 
 void board::odkryj_wszystko()
 {
-	for (int i = 0; i < tab.width() ;i++) {
+	for(int i = 0; i < tab.width(); i++)
+		for (int j = 0; j < tab.height(); j++) {
+			tab(i, j).check_area();		// najpierw trzeba odkryæ wszystkie
+		}								// potem mo¿na wypisaæ wszystko
+	std::cout << (*this);
+
+	/*for (int i = 0; i < tab.width() ;i++) {
 		for (int j = 0; j < tab.height();j++) {
 			tab(i, j).check_area();
 		}
-	}
+	}*/
 }
 
 void board::flaga()

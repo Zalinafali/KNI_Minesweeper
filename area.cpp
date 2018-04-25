@@ -18,6 +18,8 @@ bool area::place_mine() {
 	return true;
 }
 
+bool area::check_mine() { return mine; }
+
 void area::change_flag() {
 	if (flag == true)
 		flag = false;
@@ -36,8 +38,12 @@ std::ostream& operator<<(std::ostream& out, const area& source) {
 	//	return out;
 	//}
 
-	if (source.checked_area == true) {		// jeœli pole by³o
-		out << "x";							// sprawdzone, wyœwietla
+	if (source.checked_area == true) {		// jeœli pole by³o sprawdzone
+		if (source.mine == true) {	// bomba
+			out << "B";
+			return out;
+		}
+		out << "x";							// wyœwietla
 		return out;							// x w tablicy
 	}
 	if (source.checked_area == false) {		// jesli pole nie by³o sprawdzone
