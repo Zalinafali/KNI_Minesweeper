@@ -15,7 +15,7 @@ public:
 
 	bool place_mine();
 	bool check_area();			// sprawdzenie danego obszaru
-	bool check_mine();
+	//bool check_mine();
 	void change_flag();
 	bool check_flag();
 
