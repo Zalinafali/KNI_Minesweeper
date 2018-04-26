@@ -1,6 +1,6 @@
 #include "area.h"
 
-area::area() : mine(false), checked_area(false), flag(false), is_active(false), mines_nearby(0) {};
+area::area() : mine(false), checked_area(false), flag(false), mines_nearby(0) {};
 
 bool area::check_area() {
 	if (checked_area == true)
@@ -18,7 +18,15 @@ bool area::place_mine() {
 	return true;
 }
 
-//bool area::check_mine() { return mine; }
+bool area::checking_mine() { 
+	return mine;
+}
+
+int area::checking_mines_nearby(){return mines_nearby;}
+
+bool area::checking_flag() { return flag;}
+
+bool area::checking_area() { return checked_area; }
 
 void area::change_flag() {
 	if (flag == true)
@@ -33,13 +41,8 @@ bool area::check_flag()
 }
 
 std::ostream& operator<<(std::ostream& out, const area& source) {
-	//if (source.mine) {		// do sprawdzania
-	//	out << "B";
-	//	return out;
-	//}
-
-	if (source.checked_area == true) {		// jeœli pole by³o sprawdzone
-		if (source.mine == true) {	// bomba
+	if (source.checked_area == true) {		// jesli pole by³o sprawdzone
+		if (source.mine == true) {			// bomba
 			out << "B";
 			return out;
 		}
@@ -47,17 +50,17 @@ std::ostream& operator<<(std::ostream& out, const area& source) {
 		return out;	
 	}
 	if (source.checked_area == false) {		// jesli pole nie by³o sprawdzone
-		if (source.flag == true) {			// jeœli jest ustawiona flaga
+		if (source.flag == true) {			// jesli jest ustawiona flaga
 			out << "F";
 			return out;
 		}
-		//if (source.is_active == true) {		// czy pole ma pokazywaæ
+		//if (source.is_active == true) {		// czy pole ma pokazywac
 		//	out << source.mines_nearby;		// sasiednie miny
 		//	return out;
 		//}
 		out << "#";							// w innym wypadku
 		return out;
 	}
-	out << "!";								// b³¹d
+	out << "!";								// b³ad
 	return out;
 }
