@@ -4,7 +4,7 @@
 #include <string>
 int main() {
 	int tab_size;
-	std::string choise;
+	std::string choice;
 	std::cout << "Wielkosc tablicy:";
 	std::cin >> tab_size;
 	int mines_number;
@@ -15,20 +15,27 @@ int main() {
 	while (game.playing()) {
 		std::cout << game;
 		std::cout << "Co chcesz zrobic? (o - odkryj, f - flaga, w - wyjdz)\n";
-		std::cin >> choise;
-		if (choise[0] == 'o' || choise[0] == 'O') {
+		std::cin >> choice;
+		if (choice[0] == 'o' || choice[0] == 'O') {
 			if (game.uncover()) {
 				game.uncover_all();
 				system("CLS");
+				std::cout << "Przegrales :c\n";
 				std::cout << game;
 				system("PAUSE");
 				break;
 			}
 		}
-		if (choise[0] == 'f' || choise[0] == 'F')game.flag();
-		if (choise[0] == 'w' || choise[0] == 'W')break;
-		system("PAUSE");
+		if (choice[0] == 'f' || choice[0] == 'F')game.flag();
+		if (choice[0] == 'w' || choice[0] == 'W')break;
 		system("CLS");
+	}
+	if (!game.playing()) {
+		game.uncover_all();
+		system("CLS");
+		std::cout << "Gratulacje, nie przegrales :D\n";
+		std::cout << game;
+		system("PAUSE");
 	}
 	return 0;
 }

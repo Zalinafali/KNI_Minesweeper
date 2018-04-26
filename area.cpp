@@ -18,7 +18,9 @@ bool area::place_mine() {
 	return true;
 }
 
-bool area::checking_mine() { return mine; }
+bool area::checking_mine() { 
+	return mine;
+}
 
 int area::checking_mines_nearby(){return mines_nearby;}
 

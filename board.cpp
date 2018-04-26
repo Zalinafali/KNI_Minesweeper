@@ -52,14 +52,8 @@ board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 					tab(row - 1 + i, col - 1 + j).add_mines_nearby();
 				}
 			}
-			/*std::cout << *this;
-			system("PAUSE");*/
 		}
 	}
-	/*for (int i = 0; i < tab.width(); i++)
-		for (int j = 0; j < tab.height(); j++) {
-			if(tab(i,j).)
-		}*/
 	std::cout << "Usatwienie i zliczenie min.\n";
 }
 
@@ -87,39 +81,21 @@ int my_MAX(int a, int b) {
 
 bool board::uncover()
 {
-	int row, col;
-	int loop_row,loop_col, c, r,c2,r2;
+	int row, col,ver,hor,vof,hof;
+	int loop_row,loop_col,loop,i,j,k;
 	std::cout << "Podaj (wiersz kolumne):\n";
 	std::cin >> row;
 	std::cin >> col; 
 	std::cin.clear();
-	if (row > tab.height() || col > tab.width()|| row <=0 || col <=0)return false;
+	if (row > tab.height() || col > tab.width()|| row-1 <0 || col-1 <0)return false;
 	if (tab(row - 1, col - 1).checking_flag()) return false;
 	if (tab(row - 1, col - 1).checking_area()) return false;
 	if (!tab(row-1, col-1).checking_mine()) {		// <-- tu stawia³eœ minê przy odkrywaniu, check_area() odkrywa pole jeœli nie by³o odkryte
-		if (!tab(row - 1, col - 1).checking_mines_nearby()) {
-			loop_row = my_MAX(row - 1, tab.height() - row);
-			loop_col= my_MAX(col - 1,tab.width() - col);
-			for (r = 0; r < loop_row-1;r++) {
-				for (c = 0; c < loop_col-1; c++) {
-					for (r2 = 0; r2 < (2*r)+1; r2++) {
-						tab(row  -r+ r2, col  - c).check_area();
-						tab(row  -r+ r2, col + c).check_area();
-					}
-					//for (c2 = 0; c2 < (2*c)+1; c2++) {
-					//	/*this->if_0(row - 1 - r, col - 1 -c+ c2);
-					//	this->if_0(row - 1 + r, col - 1 -c- c2);*/
-					//}
-				}
-			}
-
-
-			/*this->if_0(row-1, col-1);*/
-		}else tab(row - 1, col - 1).check_area();
+		if (tab(row - 1, col - 1).checking_mines_nearby() == 0) if_0(row - 1, col - 1);
+		else tab(row - 1, col - 1).check_area();
 		return false;
 	}
 	return true;
-
 }
 
 void board::uncover_all()
@@ -143,22 +119,17 @@ void board::flag()
 
 void board::if_0(int row, int col)
 {
-	int i, j, x, y, z;
-	if (row - 1 > 0) i = 0;
-	else { i = 1; }
-	if (row - 1 < tab_size - 1) x = 3;
-	else { x = 2; }
-	if (col - 1 > 0) j = 0;
-	else { j = 1; }
-	if (col - 1 < tab_size - 1) y = 3;
-	else { y = 2; }
-	z = j;
-	for (; i < x; i++) {
-		for (j = z; j < y; j++) {
-			if (!tab(row - 2 + i, col - 2 + j).checking_area())
-				tab(row - 2 + i, col - 2 + j).check_area();
+	if (row  > tab.height()-1 || col > tab.width()-1 || row < 0 || col < 0)return;
+	if (!tab(row , col ).checking_area())
+		tab(row , col).check_area();
+	else return;
+	if (tab(row, col).checking_mines_nearby())return;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if_0(row - 1 + i, col - 1 + j);
 		}
 	}
+	return;
 }
 
 	std::ostream& operator<<(std::ostream& out, board& source) {
