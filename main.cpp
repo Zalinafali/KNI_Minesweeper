@@ -3,12 +3,10 @@
 //#include <iostream>
 #include <string>
 int main() {
-
 	int tab_size;
 	std::string choise;
 	std::cout << "Wielkosc tablicy:";
 	std::cin >> tab_size;
-
 	int mines_number;
 	std::cout << "Ilosc min:";
 	std::cin >> mines_number;
@@ -32,6 +30,5 @@ int main() {
 		system("PAUSE");
 		system("CLS");
 	}
-	
 	return 0;
 }

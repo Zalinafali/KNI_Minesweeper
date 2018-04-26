@@ -2,6 +2,7 @@
 #include <ctime>
 #include "board.h"
 #include <random>
+#include <cmath>
 
 thread_local std::mt19937 gen{ std::random_device{}() };
 
@@ -70,24 +71,53 @@ board::~board() {
 
 bool board::playing()
 {
-	std::cout << mines_left <<std::endl;
-	system("PAUSE");
-	if (mines_left)return true;
-	return false;
+	int a = 0;
+	for (int i = 0; i < tab.width(); i++)
+		for (int j = 0; j < tab.height(); j++) {
+			if(tab(i, j).checking_area())a++;		// najpierw trzeba odkryæ wszystkie
+		}
+	a=(tab_size*tab_size) - a;
+	if (a==mines_number)return false;
+	else return true;
+}
+
+int my_MAX(int a, int b) {
+	return (a + b + abs(a - b)) / 2;
 }
 
 bool board::uncover()
 {
 	int row, col;
-	std::cout << "Podaj wiersz:\n";
+	int loop_row,loop_col, c, r,c2,r2;
+	std::cout << "Podaj (wiersz kolumne):\n";
 	std::cin >> row;
-	std::cout << "Podaj kolumne:\n";
-	std::cin >> col;
-	if (row > tab.height() || col > tab.width())return false;
-	if (tab(row - 1, col - 1).check_flag()) return false;
-	//if (!tab(wiersz-1, kolumna-1).check_area()) {		// <-- tu stawia³eœ minê przy odkrywaniu, check_area() odkrywa pole jeœli nie by³o odkryte
+	std::cin >> col; 
+	std::cin.clear();
+	if (row > tab.height() || col > tab.width()|| row <=0 || col <=0)return false;
+	if (tab(row - 1, col - 1).checking_flag()) return false;
+	if (tab(row - 1, col - 1).checking_area()) return false;
+	if (!tab(row-1, col-1).checking_mine()) {		// <-- tu stawia³eœ minê przy odkrywaniu, check_area() odkrywa pole jeœli nie by³o odkryte
+		if (!tab(row - 1, col - 1).checking_mines_nearby()) {
+			loop_row = my_MAX(row - 1, tab.height() - row);
+			loop_col= my_MAX(col - 1,tab.width() - col);
+			for (r = 0; r < loop_row-1;r++) {
+				for (c = 0; c < loop_col-1; c++) {
+					for (r2 = 0; r2 < (2*r)+1; r2++) {
+						tab(row  -r+ r2, col  - c).check_area();
+						tab(row  -r+ r2, col + c).check_area();
+					}
+					//for (c2 = 0; c2 < (2*c)+1; c2++) {
+					//	/*this->if_0(row - 1 - r, col - 1 -c+ c2);
+					//	this->if_0(row - 1 + r, col - 1 -c- c2);*/
+					//}
+				}
+			}
 
-	//}
+
+			/*this->if_0(row-1, col-1);*/
+		}else tab(row - 1, col - 1).check_area();
+		return false;
+	}
 	return true;
 
 }
@@ -98,13 +128,6 @@ void board::uncover_all()
 		for (int j = 0; j < tab.height(); j++) {
 			tab(i, j).check_area();		// najpierw trzeba odkryæ wszystkie
 		}								// potem mo¿na wypisaæ wszystko
-	//std::cout << (*this);
-
-	/*for (int i = 0; i < tab.width() ;i++) {
-		for (int j = 0; j < tab.height();j++) {
-			tab(i, j).check_area();
-		}
-	}*/
 }
 
 void board::flag()
@@ -118,9 +141,27 @@ void board::flag()
 	else tab(wiersz-1, kolumna-1).change_flag();
 }
 
+void board::if_0(int row, int col)
+{
+	int i, j, x, y, z;
+	if (row - 1 > 0) i = 0;
+	else { i = 1; }
+	if (row - 1 < tab_size - 1) x = 3;
+	else { x = 2; }
+	if (col - 1 > 0) j = 0;
+	else { j = 1; }
+	if (col - 1 < tab_size - 1) y = 3;
+	else { y = 2; }
+	z = j;
+	for (; i < x; i++) {
+		for (j = z; j < y; j++) {
+			if (!tab(row - 2 + i, col - 2 + j).checking_area())
+				tab(row - 2 + i, col - 2 + j).check_area();
+		}
+	}
+}
 
-
-std::ostream& operator<<(std::ostream& out, board& source) {
+	std::ostream& operator<<(std::ostream& out, board& source) {
 	out << "	";
 	for (int i = 0; i < source.tab_size; i++)
 		out << i + 1 << " ";

@@ -25,6 +25,6 @@ public:
 	}
 
 	/*T const& operator()(size_t row, size_t col) {
-		return const_cast<Matrix&>(*this)(row, col);
+	return const_cast<Matrix&>(*this)(row, col);
 	}*/
 };

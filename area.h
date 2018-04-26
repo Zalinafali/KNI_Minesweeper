@@ -15,7 +15,10 @@ public:
 
 	bool place_mine();
 	bool check_area();			// sprawdzenie danego obszaru
-	//bool check_mine();
+	bool checking_mine();
+	int checking_mines_nearby();
+	bool checking_flag();
+	bool checking_area();
 	void change_flag();
 	bool check_flag();
 
