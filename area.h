@@ -5,10 +5,10 @@
 class area {
 private:
 	bool mine;			// czy jest mina
-	bool checked_area;	// czy pole zosta³o odkryte
+	bool checked_area;	// czy pole zostalo odkryte
 	bool flag;			// oflagowanie pola
-	bool is_active;		// czy styka siê z odkrytym polem
-	int mines_nearby;	// miny dotykaj¹ce obszaru
+	//bool is_active;		// czy styka sie z odkrytym polem
+	int mines_nearby;	// miny dotykajace obszaru
 
 public:
 	area();
@@ -22,7 +22,7 @@ public:
 	void change_flag();
 	bool check_flag();
 
-	void add_mines_nearby();	// liczba s¹siaduj¹cych min
+	void add_mines_nearby();	// zwikszanie liczby sasiaduj¹cych min
 
 	friend std::ostream& operator<<(std::ostream&, const area&);
 };
