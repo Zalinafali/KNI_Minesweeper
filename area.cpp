@@ -54,10 +54,7 @@ std::ostream& operator<<(std::ostream& out, const area& source) {
 			out << "F";
 			return out;
 		}
-		//if (source.is_active == true) {		// czy pole ma pokazywac
-		//	out << source.mines_nearby;		// sasiednie miny
-		//	return out;
-		//}
+		
 		out << "#";							// w innym wypadku
 		return out;
 	}

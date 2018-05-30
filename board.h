@@ -4,7 +4,7 @@
 #include "area.h"
 #include "Matrix.h"
 
-class board {
+class Board {
 private:
 	Matrix<area> tab;
 	int tab_size;
@@ -12,13 +12,15 @@ private:
 	unsigned int mines_left;
 
 public:
-	board(int, int);
-	~board();
+	Board(int, int);
+	~Board();
+
 	bool playing();
 	bool uncover();
 	void uncover_all();
 	void flag();
 	void if_0(int,int);
-	friend std::ostream& operator<<(std::ostream&, board&);
+
+	friend std::ostream& operator<<(std::ostream&, Board&);
 
 };

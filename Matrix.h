@@ -10,15 +10,13 @@ class Matrix {
 
 public:
 	Matrix() : width_(0), height_(0) {}
-	Matrix(int _width, int _height) : width_(_width), height_(_height) {
-		for (int i = 0; i < width_ * height_; i++)
-			data_.push_back(area());
-	}
+
+	Matrix(int _width, int _height) : width_(_width), height_(_height) {}
 
 	int width() { return width_; }
 	int height() { return height_; }
 
-	T& operator()(int row, int col) {
+	T& operator()(int row, int col) const {		// const
 		assert(col < width_);
 		assert(row < height_);
 		return data_[row * width_ + col];

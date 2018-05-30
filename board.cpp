@@ -1,6 +1,6 @@
 #include <random>
 #include <cmath>
-#include "board.h"
+#include "Board.h"
 
 thread_local std::mt19937 gen{ std::random_device{}() };
 
@@ -9,7 +9,7 @@ T random(T min, T max) {
 	return std::uniform_int_distribution<T>{min, max}(gen);
 }
 
-board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
+Board::Board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 
 	if (mines_number >= (tab_size-1) * (tab_size-1))		// max liczba min
 		mines_number = (tab_size-1) * (tab_size-1);
@@ -45,6 +45,7 @@ board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 			for (; i < x; i++) {
 				for (j=z; j < y; j++) {
 					tab(row - 1 + i, col - 1 + j).add_mines_nearby();
+
 				}
 			}
 		}
@@ -52,9 +53,9 @@ board::board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 	//std::cout << "Usatwienie i zliczenie min.\n";
 }
 
-board::~board() {}
+Board::~Board() {}
 
-bool board::playing()
+bool Board::playing()
 {
 	int a = 0;
 	for (int i = 0; i < tab.width(); i++)
@@ -70,7 +71,7 @@ int my_MAX(int a, int b) {
 	return (a + b + abs(a - b)) / 2;
 }
 
-bool board::uncover()
+bool Board::uncover()
 {
 	int row, col;
 	std::cout << "Podaj (wiersz kolumne):\n";
@@ -88,7 +89,7 @@ bool board::uncover()
 	return true;
 }
 
-void board::uncover_all()
+void Board::uncover_all()
 {
 	for(int i = 0; i < tab.width(); i++)
 		for (int j = 0; j < tab.height(); j++) {
@@ -96,7 +97,7 @@ void board::uncover_all()
 		}								// potem mozna wypisac wszystko
 }
 
-void board::flag()
+void Board::flag()
 {
 	int wiersz, kolumna;
 	std::cout << "Podaj wiersz:\n";
@@ -107,7 +108,7 @@ void board::flag()
 	else tab(wiersz-1, kolumna-1).change_flag();
 }
 
-void board::if_0(int row, int col)
+void Board::if_0(int row, int col)
 {
 	if (row  > tab.height()-1 || col > tab.width()-1 || row < 0 || col < 0)return;
 	if (!tab(row , col ).checking_area())
@@ -122,7 +123,7 @@ void board::if_0(int row, int col)
 	return;
 }
 
-std::ostream& operator<<(std::ostream& out, board& source) {
+std::ostream& operator<<(std::ostream& out, Board& source) {
 	out << "\n   ";
 	for (int i = 0; i < source.tab_size; i++)
 		out << i + 1 << " ";
