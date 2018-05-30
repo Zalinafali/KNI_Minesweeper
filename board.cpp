@@ -11,20 +11,15 @@ T random(T min, T max) {
 
 Board::Board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 
-	if (mines_number >= (tab_size-1) * (tab_size-1))		// max liczba min
-		mines_number = (tab_size-1) * (tab_size-1);
+	if (mines_number >= (tab_size - 1) * (tab_size - 1))		// max liczba min
+		mines_number = (tab_size - 1) * (tab_size - 1);
 
 	mines_left = mines_number;		// liczba pozostalych min
 
-	tab = Matrix<area> (tab_size, tab_size);
-
-	//std::cout << "Inicjalizacja tablicy.\n";
-	//std::cout << "Tab size:\t" << tab_size << "\n";
-	//std::cout << "Tab width:\t" << tab.width() << "\n";
-	//std::cout << "Tab height:\t" << tab.height() << "\n";
+	tab = Matrix<area>(tab_size, tab_size);
 
 	int mines_to_place = mines_number;		// losowe podkladanie min
-	int row, col,i,j,x,y,z;
+	int row, col, i, j, x, y, z;
 	while (mines_to_place > 0) {
 
 		row = random<int>(0, tab_size - 1);
@@ -35,15 +30,15 @@ Board::Board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 
 			if (row > 0) { i = 0; }
 			else { i = 1; }
-			if (row  < tab_size-1) { x=3; }
-			else { x=2; }
+			if (row  < tab_size - 1) { x = 3; }
+			else { x = 2; }
 			if (col > 0) { j = 0; }
 			else { j = 1; }
-			if (col < tab_size-1) { y = 3; }
+			if (col < tab_size - 1) { y = 3; }
 			else { y = 2; }
 			z = j;
 			for (; i < x; i++) {
-				for (j=z; j < y; j++) {
+				for (j = z; j < y; j++) {
 					tab(row - 1 + i, col - 1 + j).add_mines_nearby();
 
 				}
@@ -53,17 +48,17 @@ Board::Board(int _size, int _mines) : tab_size(_size), mines_number(_mines) {
 	//std::cout << "Usatwienie i zliczenie min.\n";
 }
 
-Board::~Board() {}
+Board::~Board() { std::cout << "Board destroyed\n";  }
 
 bool Board::playing()
 {
 	int a = 0;
 	for (int i = 0; i < tab.width(); i++)
 		for (int j = 0; j < tab.height(); j++)
-			if(tab(i, j).checking_area())
+			if (tab(i, j).checking_area())
 				a++;
-	a=(tab_size*tab_size) - a;
-	if (a==mines_number) return false;
+	a = (tab_size*tab_size) - a;
+	if (a == mines_number) return false;
 	else return true;
 }
 
@@ -76,12 +71,12 @@ bool Board::uncover()
 	int row, col;
 	std::cout << "Podaj (wiersz kolumne):\n";
 	std::cin >> row;
-	std::cin >> col; 
+	std::cin >> col;
 	std::cin.clear();
-	if (row > tab.height() || col > tab.width()|| row-1 <0 || col-1 <0)return false;
+	if (row > tab.height() || col > tab.width() || row - 1 <0 || col - 1 <0)return false;
 	if (tab(row - 1, col - 1).checking_flag()) return false;
 	if (tab(row - 1, col - 1).checking_area()) return false;
-	if (!tab(row-1, col-1).checking_mine()) {
+	if (!tab(row - 1, col - 1).checking_mine()) {
 		if (tab(row - 1, col - 1).checking_mines_nearby() == 0) if_0(row - 1, col - 1);
 		else tab(row - 1, col - 1).check_area();
 		return false;
@@ -91,10 +86,10 @@ bool Board::uncover()
 
 void Board::uncover_all()
 {
-	for(int i = 0; i < tab.width(); i++)
+	for (int i = 0; i < tab.width(); i++)
 		for (int j = 0; j < tab.height(); j++) {
-			tab(i, j).check_area();		// trzeba odkryc wszystkie
-		}								// potem mozna wypisac wszystko
+			tab(i, j).check_area();
+		}
 }
 
 void Board::flag()
@@ -105,14 +100,14 @@ void Board::flag()
 	std::cout << "Podaj kolumne:\n";
 	std::cin >> kolumna;
 	if (wiersz > tab.height() || kolumna > tab.width()) return;
-	else tab(wiersz-1, kolumna-1).change_flag();
+	else tab(wiersz - 1, kolumna - 1).change_flag();
 }
 
 void Board::if_0(int row, int col)
 {
-	if (row  > tab.height()-1 || col > tab.width()-1 || row < 0 || col < 0)return;
-	if (!tab(row , col ).checking_area())
-		tab(row , col).check_area();
+	if (row  > tab.height() - 1 || col > tab.width() - 1 || row < 0 || col < 0)return;
+	if (!tab(row, col).checking_area())
+		tab(row, col).check_area();
 	else return;
 	if (tab(row, col).checking_mines_nearby())return;
 	for (int i = 0; i < 3; i++) {

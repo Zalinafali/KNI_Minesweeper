@@ -1,9 +1,17 @@
-#include "Game.h"
+#include <random>
+#include "board.h"
 
 int main() {
-	Game minesweeper;
-	minesweeper.game_options();
-	minesweeper.play_game();
 
-	return 0;
+	int tab_size;
+	std::cout << "Wielkosc tablicy:";
+	std::cin >> tab_size;
+
+	int mines_number;
+	std::cout << "Ilosc min:";
+	std::cin >> mines_number;
+
+	board game(tab_size, mines_number);
+	std::cout << game;
+
 }

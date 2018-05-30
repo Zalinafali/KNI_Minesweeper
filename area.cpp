@@ -18,13 +18,13 @@ bool area::place_mine() {
 	return true;
 }
 
-bool area::checking_mine() { 
+bool area::checking_mine() {
 	return mine;
 }
 
-int area::checking_mines_nearby(){return mines_nearby;}
+int area::checking_mines_nearby() { return mines_nearby; }
 
-bool area::checking_flag() { return flag;}
+bool area::checking_flag() { return flag; }
 
 bool area::checking_area() { return checked_area; }
 
@@ -46,15 +46,15 @@ std::ostream& operator<<(std::ostream& out, const area& source) {
 			out << "B";
 			return out;
 		}
-		out << source.mines_nearby;	
-		return out;	
+		out << source.mines_nearby;
+		return out;
 	}
 	if (source.checked_area == false) {		// jesli pole nie by³o sprawdzone
 		if (source.flag == true) {			// jesli jest ustawiona flaga
 			out << "F";
 			return out;
 		}
-		
+
 		out << "#";							// w innym wypadku
 		return out;
 	}

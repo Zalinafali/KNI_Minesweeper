@@ -19,7 +19,7 @@ public:
 	bool uncover();
 	void uncover_all();
 	void flag();
-	void if_0(int,int);
+	void if_0(int, int);
 
 	friend std::ostream& operator<<(std::ostream&, Board&);
 
